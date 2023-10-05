@@ -18,7 +18,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 }
 
 
-void UTP_WeaponComponent::Fire()
+void UTP_WeaponComponent::Fire_Implementation()
 {
 	if (Character == nullptr || Character->GetController() == nullptr)
 	{
@@ -39,6 +39,7 @@ void UTP_WeaponComponent::Fire()
 			//Set Spawn Collision Handling Override
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+			ActorSpawnParams.Instigator = Character;
 	
 			// Spawn the projectile at the muzzle
 			World->SpawnActor<AArcaneAscensionProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
@@ -63,13 +64,21 @@ void UTP_WeaponComponent::Fire()
 	}
 }
 
-void UTP_WeaponComponent::AttachWeapon(AArcaneAscensionCharacter* TargetCharacter)
+void UTP_WeaponComponent::AttachWeapon_Implementation(AArcaneAscensionCharacter* TargetCharacter)
 {
 	Character = TargetCharacter;
 	if (Character == nullptr)
 	{
 		return;
 	}
+
+	// if (!Character->HasAuthority())
+	// if (!Character->IsLocallyControlled())
+	// {
+		// return;
+	// }
+	
+	UE_LOG(LogTemp, Warning, TEXT("ATTACH ATTACH ATTACH ATTACH ATTACH ATTACH ATTACH"))
 
 	// Attach the weapon to the First Person Character
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
@@ -93,6 +102,11 @@ void UTP_WeaponComponent::AttachWeapon(AArcaneAscensionCharacter* TargetCharacte
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Fire);
 		}
 	}
+}
+
+void UTP_WeaponComponent::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)

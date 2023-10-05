@@ -19,6 +19,8 @@ AArcaneAscensionProjectile::AArcaneAscensionProjectile()
 	// Set as root component
 	RootComponent = CollisionComp;
 
+	bReplicates = true;
+
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;

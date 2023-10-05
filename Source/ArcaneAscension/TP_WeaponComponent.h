@@ -42,14 +42,17 @@ public:
 	UTP_WeaponComponent();
 
 	/** Attaches the actor to a FirstPersonCharacter */
-	UFUNCTION(BlueprintCallable, Category="Weapon")
+	UFUNCTION(BlueprintCallable, Category="Weapon", Client, Reliable)
 	void AttachWeapon(AArcaneAscensionCharacter* TargetCharacter);
 
 	/** Make the weapon Fire a Projectile */
-	UFUNCTION(BlueprintCallable, Category="Weapon")
+	UFUNCTION(BlueprintCallable, Category="Weapon", Server, Reliable)
 	void Fire();
 
 protected:
+	UFUNCTION()
+	virtual void BeginPlay() override;
+	
 	/** Ends gameplay for this component. */
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
