@@ -23,6 +23,14 @@ class AArcaneAscensionCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
+	/** Weapon mesh, 3rd person view, only seen by others */
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	USkeletalMeshComponent* WeaponMesh;
+
+	/** Weapon mesh, 1st person view, only seen by self */
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	USkeletalMeshComponent* WeaponMesh1P;
+
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -79,6 +87,10 @@ protected:
 public:
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+	/** Returns WeaponMesh subobject **/
+	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
+	/** Returns WeaponMesh1P subobject **/
+	USkeletalMeshComponent* GetWeaponMesh1P() const { return WeaponMesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 

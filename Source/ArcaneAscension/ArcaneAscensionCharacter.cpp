@@ -36,6 +36,14 @@ AArcaneAscensionCharacter::AArcaneAscensionCharacter()
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("TP Weapon Mesh"));
+	WeaponMesh->SetOwnerNoSee(true);
+	WeaponMesh->SetupAttachment(GetMesh(), FName("GripPoint"));
+	
+	WeaponMesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("1P Weapon Mesh"));
+	WeaponMesh1P->SetOnlyOwnerSee(true);
+	WeaponMesh1P->SetupAttachment(GetMesh1P(), FName("GripPoint"));
+
 	// Hide third person mesh from owner
 	GetMesh()->SetOwnerNoSee(true);
 }

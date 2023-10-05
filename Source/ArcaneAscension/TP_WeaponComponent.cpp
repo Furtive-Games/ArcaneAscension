@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "PhysicsAssetUtils.h"
 
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
@@ -71,18 +72,15 @@ void UTP_WeaponComponent::AttachWeapon_Implementation(AArcaneAscensionCharacter*
 	{
 		return;
 	}
-
-	// if (!Character->HasAuthority())
-	// if (!Character->IsLocallyControlled())
-	// {
-		// return;
-	// }
 	
-	UE_LOG(LogTemp, Warning, TEXT("ATTACH ATTACH ATTACH ATTACH ATTACH ATTACH ATTACH"))
-
 	// Attach the weapon to the First Person Character
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
+	
+	// Duplicate the gun mesh and attach to 3rd person mesh.
+	// Maybe condense these into a function on the character?
+	Character->GetWeaponMesh()->SetSkeletalMeshAsset(GetSkeletalMeshAsset());
+	// Character->GetWeaponMesh1P()->SetSkeletalMeshAsset(GetSkeletalMeshAsset());
 	
 	// switch bHasRifle so the animation blueprint can switch to another animation set
 	Character->SetHasRifle(true);
@@ -95,12 +93,16 @@ void UTP_WeaponComponent::AttachWeapon_Implementation(AArcaneAscensionCharacter*
 			// Set the priority of the mapping to 1, so that it overrides the Jump action with the Fire action when using touch input
 			Subsystem->AddMappingContext(FireMappingContext, 1);
 		}
-
+	
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
 			// Fire
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Fire);
 		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No player controller found"))
 	}
 }
 
