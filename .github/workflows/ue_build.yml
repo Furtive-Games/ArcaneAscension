@@ -10,7 +10,7 @@ jobs:
 
   build:
 
-    runs-on: dev-slim-5.2 
+    runs-on: ghcr.io/epicgames/unreal-engine:dev-slim-5.2
 
     steps:
     - uses: actions/checkout@v3
