@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: dev-slim-5.2 
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the project
+      run: /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
+              BuildCookRun \
+              -utf8output \
+              -platform=Linux \
+              -clientconfig=Shipping \
+              -serverconfig=Shipping \
+              -project=./ArcaneAscension.uproject \
+              -noP4 -nodebuginfo -allmaps \
+              -cook -build -stage -prereqs -pak -archive \
+              -archivedirectory=./Packaged 
