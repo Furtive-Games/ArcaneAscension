@@ -15,8 +15,8 @@ jobs:
     container:
       image: ghcr.io/epicgames/unreal-engine:dev-slim-5.2
       credentials:
-#        username: ${{ github.actor }}
-#        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GHCR_TOKEN }}
 
     steps:
     - uses: actions/checkout@v3
